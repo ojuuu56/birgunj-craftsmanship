@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { useI18n } from "@/lib/i18n";
-import { Play, Pause, Volume2, VolumeX, Maximize2, Minimize2, X } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Maximize2, X, ChevronDown } from "lucide-react";
 
 const SRC = "/videos/shop-cinematic.mp4";
 
 export function VideoSection() {
-  const { t } = useI18n();
   const sectionRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLVideoElement>(null);
   const floatRef = useRef<HTMLVideoElement>(null);
@@ -15,21 +13,30 @@ export function VideoSection() {
   const [duration, setDuration] = useState(0);
   const [showFloating, setShowFloating] = useState(false);
   const [floatingClosed, setFloatingClosed] = useState(false);
+  const [inSection, setInSection] = useState(true);
 
-  // sync float visibility on scroll out of section
+  // Show floating PiP whenever main section is out of view (including hero/home)
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
     const obs = new IntersectionObserver(([entry]) => {
       const inView = entry.isIntersecting;
+      setInSection(inView);
       if (inView) setShowFloating(false);
-      else if (playing && !floatingClosed) setShowFloating(true);
-    }, { threshold: 0.25 });
+      else if (!floatingClosed) setShowFloating(true);
+    }, { threshold: 0.2 });
     obs.observe(el);
     return () => obs.disconnect();
-  }, [playing, floatingClosed]);
+  }, [floatingClosed]);
 
-  // sync time between main and floating
+  // Auto-play muted on load so floating PiP can show on home section too
+  useEffect(() => {
+    const v = mainRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.play().then(() => setPlaying(true)).catch(() => {});
+  }, []);
+
   useEffect(() => {
     const main = mainRef.current;
     if (!main) return;
@@ -72,25 +79,27 @@ export function VideoSection() {
   };
 
   return (
-    <section id="cinematic" ref={sectionRef} className="relative py-24 bg-card/30">
-      <div className="mx-auto max-w-6xl px-4">
-        <div className="text-center mb-10">
-          <p className="text-xs tracking-[0.4em] uppercase text-royal-glow mb-3">— Cinematic</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-gradient-silver font-nepali">{t("sections.videoTitle")}</h2>
+    <section id="cinematic" ref={sectionRef} className="relative py-20">
+      <div className="mx-auto max-w-5xl px-4">
+        <div className="text-center mb-8">
+          <p className="text-[10px] tracking-[0.5em] uppercase text-primary">— Cinematic</p>
         </div>
 
-        <div className="relative rounded-3xl overflow-hidden metallic-border ring-glow bg-black group/player">
+        <div className="relative rounded-2xl overflow-hidden hair-border ring-gold bg-black group/player">
           <video
             ref={mainRef}
             src={SRC}
             playsInline
             muted={muted}
+            loop
             className="w-full aspect-video object-cover"
             onClick={togglePlay}
+            onPlay={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
           />
 
-          {/* Custom YouTube-style controls */}
-          <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-100 sm:opacity-0 sm:group-hover/player:opacity-100 transition">
+          {/* YouTube-style control bar */}
+          <div className="absolute inset-x-0 bottom-0 px-3 sm:px-4 pb-2 pt-8 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-100 sm:opacity-0 sm:group-hover/player:opacity-100 transition">
             <input
               type="range"
               min={0}
@@ -98,17 +107,17 @@ export function VideoSection() {
               step="0.1"
               value={progress}
               onChange={seek}
-              className="w-full h-1 accent-royal-glow cursor-pointer"
+              className="w-full h-1 accent-[var(--gold)] cursor-pointer"
             />
-            <div className="flex items-center gap-3 mt-2 text-white">
-              <button onClick={togglePlay} aria-label="Play/Pause" className="hover:scale-110 transition">
+            <div className="flex items-center gap-3 mt-1.5 text-white">
+              <button onClick={togglePlay} aria-label="Play/Pause" className="hover:text-primary transition">
                 {playing ? <Pause className="size-5" /> : <Play className="size-5" />}
               </button>
-              <button onClick={toggleMute} aria-label="Mute" className="hover:scale-110 transition">
+              <button onClick={toggleMute} aria-label="Mute" className="hover:text-primary transition">
                 {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
               </button>
-              <span className="text-xs tabular-nums">{fmt(progress)} / {fmt(duration)}</span>
-              <button onClick={fullscreen} aria-label="Fullscreen" className="ml-auto hover:scale-110 transition">
+              <span className="text-[11px] tabular-nums text-white/80">{fmt(progress)} / {fmt(duration)}</span>
+              <button onClick={fullscreen} aria-label="Fullscreen" className="ml-auto hover:text-primary transition">
                 <Maximize2 className="size-5" />
               </button>
             </div>
@@ -118,25 +127,26 @@ export function VideoSection() {
             <button
               onClick={togglePlay}
               aria-label="Play"
-              className="absolute inset-0 flex items-center justify-center bg-black/30"
+              className="absolute inset-0 flex items-center justify-center bg-black/35"
             >
-              <span className="size-20 rounded-full bg-gradient-royal ring-glow flex items-center justify-center hover:scale-110 transition">
-                <Play className="size-9 ml-1 text-white" />
+              <span className="size-16 rounded-full bg-gradient-gold ring-gold flex items-center justify-center hover:scale-105 transition">
+                <Play className="size-7 ml-0.5 text-primary-foreground" />
               </span>
             </button>
           )}
         </div>
       </div>
 
-      {/* Floating PiP player */}
+      {/* Floating PiP — YouTube-style mini player */}
       {showFloating && (
-        <div className="fixed bottom-4 left-4 z-40 w-56 sm:w-72 rounded-2xl overflow-hidden glass-strong metallic-border ring-glow animate-scale-in">
-          <div className="relative">
+        <div className="fixed bottom-4 right-4 z-40 w-52 sm:w-64 rounded-xl overflow-hidden glass-strong hair-border ring-gold animate-scale-in">
+          <div className="relative bg-black">
             <video
               ref={floatRef}
               src={SRC}
               autoPlay
               muted={muted}
+              loop
               playsInline
               className="w-full aspect-video object-cover cursor-pointer"
               onClick={() => sectionRef.current?.scrollIntoView({ behavior: "smooth" })}
@@ -144,19 +154,32 @@ export function VideoSection() {
                 if (floatRef.current && mainRef.current) floatRef.current.currentTime = mainRef.current.currentTime;
               }}
             />
-            <button
-              onClick={(e) => { e.stopPropagation(); setFloatingClosed(true); setShowFloating(false); }}
-              className="absolute top-1.5 right-1.5 glass rounded-full p-1.5"
-              aria-label="Close mini player"
-            >
-              <X className="size-3.5" />
-            </button>
-            <div className="absolute bottom-1.5 right-1.5 glass rounded px-1.5 py-0.5 text-[10px]">
-              <Minimize2 className="size-3 inline mr-1" /> Mini
+            <div className="absolute top-1 left-1 right-1 flex justify-between items-center">
+              <button
+                onClick={(e) => { e.stopPropagation(); sectionRef.current?.scrollIntoView({ behavior: "smooth" }); }}
+                className="glass rounded-full p-1.5 text-white"
+                aria-label="Open in section"
+                title="Open in cinematic section"
+              >
+                <ChevronDown className="size-3" />
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); setFloatingClosed(true); setShowFloating(false); }}
+                className="glass rounded-full p-1.5 text-white"
+                aria-label="Close mini player"
+              >
+                <X className="size-3" />
+              </button>
+            </div>
+            <div className="absolute bottom-0 inset-x-0 px-2 py-1 bg-gradient-to-t from-black/90 to-transparent text-[9px] tracking-[0.3em] uppercase text-primary">
+              Live · Workshop
             </div>
           </div>
         </div>
       )}
+
+      {/* prevent floating from showing forever; keep state in sync hint */}
+      {!inSection && floatingClosed && null}
     </section>
   );
 }
