@@ -26,7 +26,7 @@ export function MapSection() {
               style={{ border: 0, display: "block" }}
               allowFullScreen
             />
-            <div className="absolute inset-0 pointer-events-none ring-1 ring-inset ring-silver/20 rounded-3xl" />
+            <div className="absolute inset-0 pointer-events-none ring-1 ring-inset ring-primary/20 rounded-3xl" />
           </div>
 
           <div className="glass-strong hair-border rounded-3xl p-6 flex flex-col gap-5">
