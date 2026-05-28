@@ -1,27 +1,25 @@
 import { useI18n } from "@/lib/i18n";
-import desk from "@/assets/banner-1.png";
-import mob from "@/assets/banner-2.png";
+import workshop from "@/assets/about-workshop.jpg";
 
 export function About() {
   const { t } = useI18n();
   return (
     <section id="about" className="relative py-24">
-      <div className="mx-auto max-w-7xl px-4 grid lg:grid-cols-2 gap-10 items-center">
-        <div className="relative rounded-3xl overflow-hidden metallic-border ring-glow">
-          <img src={desk} alt="Birgunj Aluminium" loading="lazy" className="hidden sm:block w-full h-full object-cover" />
-          <img src={mob} alt="Birgunj Aluminium" loading="lazy" className="sm:hidden w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+      <div className="mx-auto max-w-7xl px-4 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative rounded-2xl overflow-hidden hair-border ring-gold">
+          <img src={workshop} alt="Birgunj Aluminium workshop" loading="lazy" className="w-full h-full object-cover aspect-[4/5]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent" />
         </div>
         <div>
-          <p className="text-xs tracking-[0.4em] uppercase text-royal-glow mb-3">— About Us</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-gradient-silver font-nepali">{t("sections.aboutTitle")}</h2>
+          <p className="text-[10px] tracking-[0.5em] uppercase text-primary mb-3">— About</p>
+          <h2 className="text-4xl sm:text-5xl text-gradient-ivory font-nepali">{t("sections.aboutTitle")}</h2>
           <div className="mt-6 space-y-4 text-muted-foreground font-nepali leading-relaxed">
             <p>{t("about.p1")}</p>
             <p>{t("about.p2")}</p>
           </div>
-          <div className="mt-8 glass-strong metallic-border rounded-2xl p-5">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground">Proprietor</p>
-            <p className="text-xl font-display font-semibold mt-1">Aftab Hawari</p>
+          <div className="mt-8 glass-strong hair-border rounded-2xl p-5">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-primary">Proprietor</p>
+            <p className="text-2xl font-display mt-1">Aftab Hawari</p>
             <p className="text-sm text-muted-foreground font-nepali mt-1">{t("about.p3")}</p>
           </div>
         </div>

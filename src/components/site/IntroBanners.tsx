@@ -32,7 +32,7 @@ export function IntroBanners({ onDone }: { onDone: () => void }) {
     <div className={`fixed inset-0 z-[100] bg-background ${mounted ? "animate-fade-up" : "opacity-0"}`}>
       {/* metallic backdrop */}
       <div className="absolute inset-0 grid-bg opacity-30" />
-      <div className="absolute inset-0 bg-gradient-to-br from-royal/20 via-transparent to-royal-glow/10" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-primary/10" />
 
       {/* SVG industrial strokes */}
       <svg className="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="none" viewBox="0 0 1200 800">
@@ -76,7 +76,7 @@ export function IntroBanners({ onDone }: { onDone: () => void }) {
 
       {/* Banner image — cinematic frame */}
       <div className="absolute inset-0 flex items-center justify-center p-6 sm:p-12 pt-20 pb-28">
-        <div className="relative w-full h-full max-w-6xl rounded-2xl overflow-hidden ring-glow metallic-border animate-scale-in">
+        <div className="relative w-full h-full max-w-6xl rounded-2xl overflow-hidden ring-gold hair-border animate-scale-in">
           <img
             key={step}
             src={b.img}
@@ -88,7 +88,7 @@ export function IntroBanners({ onDone }: { onDone: () => void }) {
           <div className="absolute inset-0 pointer-events-none shimmer opacity-30 mix-blend-overlay" />
           {/* corner brackets */}
           {["top-3 left-3","top-3 right-3 rotate-90","bottom-3 left-3 -rotate-90","bottom-3 right-3 rotate-180"].map(c => (
-            <div key={c} className={`absolute ${c} size-8 border-t-2 border-l-2 border-silver/60`} />
+            <div key={c} className={`absolute ${c} size-8 border-t-2 border-l-2 border-primary/60`} />
           ))}
         </div>
       </div>
@@ -103,7 +103,7 @@ export function IntroBanners({ onDone }: { onDone: () => void }) {
         </button>
         <button
           onClick={b.next}
-          className="bg-gradient-royal text-primary-foreground rounded-full px-7 py-3 text-sm font-semibold flex items-center gap-2 ring-glow hover:scale-[1.02] transition"
+          className="bg-gradient-gold text-primary-foreground rounded-full px-7 py-3 text-sm font-semibold flex items-center gap-2 ring-gold hover:scale-[1.02] transition"
         >
           {b.cta} <ChevronRight className="size-4" />
         </button>
@@ -112,7 +112,7 @@ export function IntroBanners({ onDone }: { onDone: () => void }) {
       {/* progress */}
       <div className="absolute bottom-2 inset-x-0 flex justify-center gap-2">
         {[0,1].map(i => (
-          <div key={i} className={`h-1 rounded-full transition-all ${i===step ? "w-10 bg-royal-glow" : "w-4 bg-muted"}`} />
+          <div key={i} className={`h-1 rounded-full transition-all ${i===step ? "w-10 bg-primary" : "w-4 bg-muted"}`} />
         ))}
       </div>
     </div>

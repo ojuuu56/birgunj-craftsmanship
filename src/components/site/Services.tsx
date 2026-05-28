@@ -37,8 +37,8 @@ export function Services() {
       <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
       <div className="mx-auto max-w-7xl px-4">
         <div className="text-center mb-14">
-          <p className="text-xs tracking-[0.4em] uppercase text-royal-glow mb-3">— 13 services</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-gradient-silver">{t("sections.servicesTitle")}</h2>
+          <p className="text-xs tracking-[0.4em] uppercase text-primary mb-3">— 13 services</p>
+          <h2 className="text-4xl sm:text-5xl font-bold text-gradient-ivory">{t("sections.servicesTitle")}</h2>
           <p className="mt-3 text-muted-foreground">{t("sections.servicesSub")}</p>
         </div>
 
@@ -46,7 +46,7 @@ export function Services() {
           {services.map((s, i) => (
             <article
               key={s.en}
-              className="group glass metallic-border rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-500"
+              className="group glass hair-border rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-500"
               style={{ animationDelay: `${i * 60}ms` }}
             >
               <div className="relative aspect-[4/3] overflow-hidden">
