@@ -1,28 +1,25 @@
-import { useI18n } from "@/lib/i18n";
-import workshop from "@/assets/about-workshop.jpg";
+import aftab from "@/assets/aftab.png";
 
 export function About() {
-  const { t } = useI18n();
   return (
     <section id="about" className="relative py-24">
-      <div className="mx-auto max-w-7xl px-4 grid lg:grid-cols-2 gap-12 items-center">
-        <div className="relative rounded-2xl overflow-hidden hair-border ring-gold">
-          <img src={workshop} alt="Birgunj Aluminium workshop" loading="lazy" className="w-full h-full object-cover aspect-[4/5]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent" />
+      <div className="mx-auto max-w-5xl px-4 flex flex-col items-center text-center">
+        <p className="text-[10px] tracking-[0.5em] uppercase text-primary mb-6">— Proprietor</p>
+        <div className="relative">
+          <div className="absolute inset-0 rounded-full pulse-ring" style={{ background: "color-mix(in oklab, var(--primary) 30%, transparent)" }} />
+          <img
+            src={aftab}
+            alt="Pro. Aftab Hawari"
+            loading="lazy"
+            width={380}
+            height={380}
+            className="relative size-56 sm:size-72 object-cover rounded-full ring-gold hair-border"
+          />
         </div>
-        <div>
-          <p className="text-[10px] tracking-[0.5em] uppercase text-primary mb-3">— About</p>
-          <h2 className="text-4xl sm:text-5xl text-gradient-ivory font-nepali">{t("sections.aboutTitle")}</h2>
-          <div className="mt-6 space-y-4 text-muted-foreground font-nepali leading-relaxed">
-            <p>{t("about.p1")}</p>
-            <p>{t("about.p2")}</p>
-          </div>
-          <div className="mt-8 glass-strong hair-border rounded-2xl p-5">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-primary">Proprietor</p>
-            <p className="text-2xl font-display mt-1">Aftab Hawari</p>
-            <p className="text-sm text-muted-foreground font-nepali mt-1">{t("about.p3")}</p>
-          </div>
-        </div>
+        <h2 className="mt-8 text-4xl sm:text-5xl font-display text-gradient-ivory">Pro. Aftab Hawari</h2>
+        <p className="mt-2 text-xs sm:text-sm tracking-[0.35em] uppercase text-muted-foreground">
+          Birgunj Aluminium &amp; UPVC Ferbrication
+        </p>
       </div>
     </section>
   );
