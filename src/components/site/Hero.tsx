@@ -13,10 +13,14 @@ export function Hero() {
             src={ytSrc}
             title="Birgunj Aluminium showcase"
             allow="autoplay; encrypted-media; picture-in-picture"
-            className="absolute inset-0 w-full h-full pointer-events-none"
+            className="absolute inset-0 w-full h-full pointer-events-none select-none"
             frameBorder={0}
+            tabIndex={-1}
+            aria-hidden="true"
           />
         </div>
+        {/* Block all clicks so YouTube replay/playback UI never appears */}
+        <div className="absolute inset-0 z-[5]" aria-hidden="true" />
       </div>
 
       {/* Subtle bottom fade only (so next section blends), no heavy vignette */}
