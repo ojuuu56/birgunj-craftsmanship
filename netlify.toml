@@ -5,9 +5,3 @@
 [build.environment]
   NITRO_PRESET = "netlify"
   NODE_VERSION = "20"
-
-# SPA-style fallback for any path the Netlify function doesn't serve
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
